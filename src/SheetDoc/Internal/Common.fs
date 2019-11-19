@@ -11,18 +11,16 @@ module Common =
         let getLetter (i : int) : char = i + 65 |> char
         let rec work (i : int) ac cont = 
             let (d,r) = System.Math.DivRem(i, 26)
-            printfn "(%d, %d)" d r
             let ch = getLetter r
             if d <= 0 then 
                 cont (ch :: ac)
             else
-                printfn "%d" d
                 work (d-1) (ch :: ac) cont
         work ix [] (fun x -> System.String  (List.toArray x))
 
-
+    // Input is zero indexed
     let cellName (row : int) (column : int) : string = 
-        columnName(column) + string(row)
+        columnName(column) + string(row + 1)
 
 
     

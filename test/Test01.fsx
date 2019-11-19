@@ -17,7 +17,6 @@ open System.IO
 #load "..\src\SheetDoc\Internal\Common.fs"
 #load "..\src\SheetDoc\Internal\Syntax.fs"
 #load "..\src\SheetDoc\Internal\Render.fs"
-open SheetDoc.Internal.Common
 open SheetDoc.Internal.Syntax
 open SheetDoc.Internal.Render
 
@@ -32,14 +31,15 @@ let test01 () : unit =
                 [ {RowCells = [ {CellValue = Int 1000}; {CellValue = Str "hello"} ] }
                 ; {RowCells = [ {CellValue = Int 1001}; {CellValue = Str "world"} ] }
                 ] 
+
             }
             { SheetName = "Sheet_2"
-            ; SheetRows = [] 
+            ; SheetRows = 
+                [ {RowCells = [ {CellValue = Str "world"} ] }
+                ] 
             } 
         ]
         }
     renderSpreadSheetDoc doc1 (outputFile "test01.xlsx")
 
 
-let test02 (i : int) : string = 
-    columnName i

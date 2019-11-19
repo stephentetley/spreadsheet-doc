@@ -33,6 +33,8 @@ let test01 () =
     let workbookPart = spreadsheetDocument.AddWorkbookPart()
     workbookPart.Workbook <- new Workbook()
 
+    let sheets : Sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets())
+    
 
     // Add a WorksheetPart to the WorkbookPart
     let worksheetPart1 = workbookPart.AddNewPart<WorksheetPart>()
@@ -49,20 +51,20 @@ let test01 () =
     row2.Append (cell2 :> OpenXmlElement)
     sheetData1.AppendChild (row2 :> OpenXmlElement) |> ignore
 
-
+    // Add Sheetdata to the worksheet
     worksheetPart1.Worksheet <- new Worksheet(sheetData1 :> OpenXmlElement)
-
-    // Add a WorksheetPart to the WorkbookPart
-    let worksheetPart2 = workbookPart.AddNewPart<WorksheetPart>()
-    worksheetPart2.Worksheet <- new Worksheet(new SheetData() :> OpenXmlElement)
-
-
-    let sheets : Sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets())
 
     let sheet1 : Sheet = new Sheet()
     sheet1.Id <- StringValue(spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart1))
     sheet1.SheetId <- UInt32Value(1u)
     sheet1.Name <- StringValue("Sheet_1")
+
+    sheets.Append([sheet1 :> OpenXmlElement])
+
+    // Add a WorksheetPart to the WorkbookPart
+    let worksheetPart2 = workbookPart.AddNewPart<WorksheetPart>()
+    let sheetData2 = new SheetData()
+    worksheetPart2.Worksheet <- new Worksheet(sheetData2 :> OpenXmlElement)
 
 
     let sheet2 : Sheet = new Sheet()
@@ -70,10 +72,9 @@ let test01 () =
     sheet2.SheetId <- UInt32Value(2u)
     sheet2.Name <- StringValue("Sheet_2")
 
-    sheets.Append([sheet1 :> OpenXmlElement; sheet2 :> OpenXmlElement])
+    sheets.Append([sheet2 :> OpenXmlElement])
 
     printfn "sheets.HasChildren %b" sheets.HasChildren
-
 
     workbookPart.Workbook.Save()
     spreadsheetDocument.Close()
