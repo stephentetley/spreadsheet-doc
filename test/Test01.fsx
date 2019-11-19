@@ -17,8 +17,10 @@ open System.IO
 #load "..\src\SheetDoc\Internal\Common.fs"
 #load "..\src\SheetDoc\Internal\Syntax.fs"
 #load "..\src\SheetDoc\Internal\Render.fs"
+#load "..\src\SheetDoc\SheetDoc.fs"
 open SheetDoc.Internal.Syntax
 open SheetDoc.Internal.Render
+open SheetDoc.SheetDoc
 
 let outputFile (name : string) : string = 
     Path.Combine(__SOURCE_DIRECTORY__, @"..\output", name)
@@ -28,14 +30,14 @@ let test01 () : unit =
         { Sheets = [ 
             { SheetName = "Sheet_1"
             ; SheetRows = 
-                [ {RowCells = [ {CellValue = Int 1000}; {CellValue = Str "hello"} ] }
-                ; {RowCells = [ {CellValue = Int 1001}; {CellValue = Str "world"} ] }
+                [ {RowCells = [ {CellValue = IntValue 1000}; {CellValue = StrValue "hello"} ] }
+                ; {RowCells = [ {CellValue = IntValue 1001}; {CellValue = StrValue "world"} ] }
                 ] 
 
             }
             { SheetName = "Sheet_2"
             ; SheetRows = 
-                [ {RowCells = [ {CellValue = Str "world"} ] }
+                [ {RowCells = [ {CellValue = StrValue "world"} ] }
                 ] 
             } 
         ]
@@ -43,3 +45,15 @@ let test01 () : unit =
     renderSpreadSheetDoc doc1 (outputFile "test01.xlsx")
 
 
+let test02 () : unit = 
+    let doc1 = 
+        spreadsheet 
+            [ sheet "Sheet_1"
+                [ row [cell <| intDoc 1000; cell <| text "hello"]
+                ; row [cell <| intDoc 1001; cell <| text "world"]
+                ] 
+
+            ; sheet "Sheet_2"
+                [ row [ cell <| text "hello world"]]
+            ]
+    renderSpreadSheetDoc doc1 (outputFile "test02.xlsx")

@@ -7,8 +7,8 @@ namespace SheetDoc.Internal
 module Syntax = 
 
     type Value = 
-        | Int of int
-        | Str of string
+        | IntValue of int
+        | StrValue of string
 
     type CellDoc = 
         { CellValue : Value }

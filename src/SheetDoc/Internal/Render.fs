@@ -31,8 +31,8 @@ module Render =
 
     let renderCell (row : int) (col: int) (value : Value) : OpenXmlElement = 
         match value with
-        | Str s -> renderTextCell row col s
-        | Int i -> renderIntCell row col i
+        | StrValue s -> renderTextCell row col s
+        | IntValue i -> renderIntCell row col i
 
     let renderRow (rowIx : int) (cellDocs : CellDoc list ) : OpenXmlElement = 
         let cells = cellDocs |> List.mapi (fun i x -> renderCell rowIx i x.CellValue) 
