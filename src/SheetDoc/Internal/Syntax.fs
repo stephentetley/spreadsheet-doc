@@ -6,9 +6,12 @@ namespace SheetDoc.Internal
 
 module Syntax = 
 
+    open System
+
     type Value = 
         | IntValue of int
         | StrValue of string
+        | DateTimeValue of DateTime
 
     type CellDoc = 
         { CellValue : Value }

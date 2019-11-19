@@ -5,6 +5,7 @@ namespace SheetDoc
 
 module SheetDoc =
     
+    open System
     open SheetDoc.Internal.Syntax
 
     type ValueDoc = Value
@@ -16,6 +17,8 @@ module SheetDoc =
     let intDoc (d : int) : ValueDoc = IntValue d
 
     let text (s : string) : ValueDoc = StrValue s
+
+    let datetime (dt : DateTime) : ValueDoc = DateTimeValue dt
 
     let cell (value : ValueDoc) : CellDoc = { CellValue = value }
 

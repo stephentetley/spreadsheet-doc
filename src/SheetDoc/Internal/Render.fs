@@ -6,6 +6,9 @@ namespace SheetDoc.Internal
 
 module Render = 
     
+    open System
+    open System.Globalization
+
     open DocumentFormat.OpenXml
     open DocumentFormat.OpenXml.Spreadsheet
     open DocumentFormat.OpenXml.Packaging
@@ -29,10 +32,23 @@ module Render =
         cell.CellValue <- new CellValue(value.ToString())
         cell :> OpenXmlElement
 
+
+    let renderDateTimeCell (row : int) (col: int) (value : DateTime) : OpenXmlElement = 
+        let cellRef = cellName row col |> StringValue
+        let cell = new Cell(DataType = EnumValue(CellValues.Number)
+                            , CellReference = cellRef)
+        // cell.StyleIndex <- UInt32Value(14u)
+        cell.CellValue <- new CellValue(value.ToOADate().ToString(CultureInfo.InvariantCulture))
+        cell.StyleIndex <- UInt32Value(1u)
+        cell :> OpenXmlElement
+
+
+
     let renderCell (row : int) (col: int) (value : Value) : OpenXmlElement = 
         match value with
         | StrValue s -> renderTextCell row col s
         | IntValue i -> renderIntCell row col i
+        | DateTimeValue dt -> renderDateTimeCell row col  dt
 
     let renderRow (rowIx : int) (cellDocs : CellDoc list ) : OpenXmlElement = 
         let cells = cellDocs |> List.mapi (fun i x -> renderCell rowIx i x.CellValue) 
@@ -78,6 +94,27 @@ module Render =
         // Add a WorkbookPart to the document
         let workbookPart : WorkbookPart = spreadsheetDocument.AddWorkbookPart()
         workbookPart.Workbook <- new Workbook()
+
+        let stylesPart : WorkbookStylesPart = 
+            spreadsheetDocument.WorkbookPart.AddNewPart<WorkbookStylesPart>()
+
+        let stylesheet = new Stylesheet()
+        let cellFormats : OpenXmlElement list = 
+            let dateformat = new CellFormat()
+            dateformat.NumberFormatId <- UInt32Value(14u)
+            dateformat.ApplyNumberFormat <- BooleanValue(true)
+
+            [ new CellFormat() :> OpenXmlElement
+            ; dateformat :> OpenXmlElement
+            ]
+        stylesheet.Fonts <- new Fonts([new Font() :> OpenXmlElement])
+        stylesheet.Fills <- new Fills([new Fill() :> OpenXmlElement])
+        stylesheet.Borders <- new Borders([new Border() :> OpenXmlElement])
+        stylesheet.CellStyleFormats <- new CellStyleFormats([new CellFormat() :> OpenXmlElement])
+        stylesheet.CellFormats <- new CellFormats(cellFormats)
+
+        stylesPart.Stylesheet <- stylesheet
+
     
         let sheets : Sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets())
         

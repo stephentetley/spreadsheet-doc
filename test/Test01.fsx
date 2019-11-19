@@ -54,6 +54,8 @@ let test02 () : unit =
                 ] 
 
             ; sheet "Sheet_2"
-                [ row [ cell <| text "hello world"]]
+                [ row [ cell <| text "hello world"]
+                ; row [ cell <| datetime System.DateTime.Now ] // see stackoverflow 2792304 how-to-insert-a-date-into-an-open-xml-worksheet
+                ]
             ]
     renderSpreadSheetDoc doc1 (outputFile "test02.xlsx")
