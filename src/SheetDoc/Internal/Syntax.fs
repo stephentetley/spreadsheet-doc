@@ -6,9 +6,20 @@ namespace SheetDoc.Internal
 
 module Syntax = 
 
+    type Value = 
+        | Int of int
+        | Str of string
+
+    type CellDoc = 
+        { CellValue : Value }
+
+    type RowDoc = 
+        { RowCells : CellDoc list }
+        
 
     type SheetDoc = 
         { SheetName : string
+          SheetRows : RowDoc list
         }
 
     type SpreadSheetDoc = 

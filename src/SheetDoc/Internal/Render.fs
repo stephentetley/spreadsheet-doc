@@ -10,7 +10,42 @@ module Render =
     open DocumentFormat.OpenXml.Spreadsheet
     open DocumentFormat.OpenXml.Packaging
 
+    open SheetDoc.Internal.Common
     open SheetDoc.Internal.Syntax
+
+    let renderTextCell (row : int) (col: int) (value : string) : OpenXmlElement = 
+        let cellRef = cellName row col |> StringValue
+        let cell = new Cell(DataType = EnumValue(CellValues.InlineString), CellReference = cellRef)
+        let inlineStr = new InlineString()
+        let text = new Text(Text = value)
+        inlineStr.AppendChild(text :> OpenXmlElement) |> ignore
+        cell.AppendChild(inlineStr) |> ignore
+        cell :> OpenXmlElement
+
+    let renderIntCell (row : int) (col: int) (value : int) : OpenXmlElement = 
+        let cellRef = cellName row col |> StringValue
+        let cell = new Cell(DataType = EnumValue(CellValues.Number), CellReference = cellRef)
+        let body = new Text(Text = value.ToString())
+        cell.AppendChild(body) |> ignore
+        cell :> OpenXmlElement
+
+    let renderCell (row : int) (col: int) (value : Value) : OpenXmlElement = 
+        match value with
+        | Str s -> renderTextCell row col s
+        | Int i -> renderIntCell row col i
+
+    let renderRow (rowIx : int) (cellDocs : CellDoc list ) : OpenXmlElement = 
+        let cells = cellDocs |> List.mapi (fun i x -> renderCell rowIx i x.CellValue) 
+        let row = new Row(RowIndex = UInt32Value(uint32 <| rowIx + 1))
+        row.Append(cells)
+        row :> OpenXmlElement
+
+    let fillSheetData (sheetData : SheetData) (sheetDoc : SheetDoc) : unit = 
+        sheetDoc.SheetRows |> 
+            List.iteri (fun i x -> 
+                let row = renderRow i x.RowCells 
+                sheetData.AppendChild(row) |> ignore)
+        
 
 
     let renderSheetDoc (worksheetPartId : string) (ix : int) (sheetDoc : SheetDoc) : OpenXmlElement = 
@@ -36,12 +71,14 @@ module Render =
         let sheets : Sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets())
 
         let sheetList = 
-            List.mapi (fun i x -> 
-                let worksheetPartId = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart)
-                renderSheetDoc worksheetPartId (i+1) x) 
-                spreadsheet.Sheets
+            spreadsheet.Sheets
+                |> List.mapi (fun i x -> 
+                    let worksheetPartId = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart)
+                    renderSheetDoc worksheetPartId (i+1) x) 
+                
 
         sheets.Append(sheetList)
+
 
         workbookPart.Workbook.Save()
         spreadsheetDocument.Close()
