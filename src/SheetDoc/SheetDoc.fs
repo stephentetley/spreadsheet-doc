@@ -22,6 +22,8 @@ module SheetDoc =
 
     let cell (value : ValueDoc) : CellDoc = { CellValue = value }
 
+    let blank : CellDoc = { CellValue = Blank }
+
     let row (cells : CellDoc list) : RowDoc = { RowCells = cells }
 
     let sheet (name : string) (rows : RowDoc list) = 

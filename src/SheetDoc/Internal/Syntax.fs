@@ -9,6 +9,7 @@ module Syntax =
     open System
 
     type Value = 
+        | Blank
         | IntValue of int
         | StrValue of string
         | DateTimeValue of DateTime

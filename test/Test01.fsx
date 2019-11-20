@@ -49,8 +49,8 @@ let test02 () : unit =
     let doc1 = 
         spreadsheet 
             [ sheet "Hello"
-                [ row [cell <| intDoc 1000; cell <| text "hello"]
-                ; row [cell <| intDoc 1001; cell <| text "world"]
+                [ row [cell <| intDoc 1000; blank ; cell <| text "hello"]
+                ; row [cell <| intDoc 1001; blank ; cell <| text "world"]
                 ] 
 
             ; sheet "World"

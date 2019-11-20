@@ -43,17 +43,19 @@ module Render =
         cell :> OpenXmlElement
 
 
-
-    let renderCell (row : int) (col: int) (value : Value) : OpenXmlElement = 
+    // Note - returning Some/None might not be right if we add styling
+    // and we can have e.g a colour filled cell with no value.
+    let renderCell (row : int) (col: int) (value : Value) : OpenXmlElement option = 
         match value with
-        | StrValue s -> renderTextCell row col s
-        | IntValue i -> renderIntCell row col i
-        | DateTimeValue dt -> renderDateTimeCell row col  dt
+        | Blank -> None
+        | StrValue s -> renderTextCell row col s |> Some
+        | IntValue i -> renderIntCell row col i |> Some
+        | DateTimeValue dt -> renderDateTimeCell row col dt |> Some
 
     let renderRow (rowIx : int) (cellDocs : CellDoc list ) : OpenXmlElement = 
         let cells = cellDocs |> List.mapi (fun i x -> renderCell rowIx i x.CellValue) 
         let row = new Row(RowIndex = UInt32Value(uint32 <| rowIx + 1))
-        cells |> List.iter (fun cell -> row.Append(cell))
+        cells |> List.choose id |> List.iter (fun cell -> row.Append(cell))
         row :> OpenXmlElement
 
     let fillSheetData (sheetDoc : SheetDoc) : OpenXmlElement = 
