@@ -48,12 +48,12 @@ let test01 () : unit =
 let test02 () : unit = 
     let doc1 = 
         spreadsheet 
-            [ sheet "Sheet_1"
+            [ sheet "Hello"
                 [ row [cell <| intDoc 1000; cell <| text "hello"]
                 ; row [cell <| intDoc 1001; cell <| text "world"]
                 ] 
 
-            ; sheet "Sheet_2"
+            ; sheet "World"
                 [ row [ cell <| text "hello world"]
                 ; row [ cell <| datetime System.DateTime.Now ] // see stackoverflow 2792304 how-to-insert-a-date-into-an-open-xml-worksheet
                 ]
