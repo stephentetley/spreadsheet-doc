@@ -10,9 +10,10 @@ module Syntax =
 
     type Value = 
         | Blank
-        | IntValue of int
-        | StrValue of string
-        | DateTimeValue of DateTime
+        | Int64Val of int64
+        | DecimalVal of decimal
+        | StringVal of string
+        | DateTimeVal of DateTime
 
     type CellDoc = 
         { CellValue : Value }

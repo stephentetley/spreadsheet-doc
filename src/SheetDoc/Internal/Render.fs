@@ -25,7 +25,7 @@ module Render =
         cell.AppendChild(inlineStr) |> ignore
         cell :> OpenXmlElement
 
-    let renderIntCell (row : int) (col: int) (value : int) : OpenXmlElement = 
+    let renderNumberCell (row : int) (col: int) (value : string) : OpenXmlElement = 
         let cellRef = cellName row col |> StringValue
         let cell = new Cell(DataType = EnumValue(CellValues.Number)
                             , CellReference = cellRef)
@@ -48,9 +48,10 @@ module Render =
     let renderCell (row : int) (col: int) (value : Value) : OpenXmlElement option = 
         match value with
         | Blank -> None
-        | StrValue s -> renderTextCell row col s |> Some
-        | IntValue i -> renderIntCell row col i |> Some
-        | DateTimeValue dt -> renderDateTimeCell row col dt |> Some
+        | Int64Val i -> renderNumberCell row col (i.ToString()) |> Some
+        | DecimalVal d -> renderNumberCell row col (d.ToString()) |> Some
+        | StringVal s -> renderTextCell row col s |> Some
+        | DateTimeVal dt -> renderDateTimeCell row col dt |> Some
 
     let renderRow (rowIx : int) (cellDocs : CellDoc list ) : OpenXmlElement = 
         let cells = cellDocs |> List.mapi (fun i x -> renderCell rowIx i x.CellValue) 

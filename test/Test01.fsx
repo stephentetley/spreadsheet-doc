@@ -30,14 +30,14 @@ let test01 () : unit =
         { Sheets = [ 
             { SheetName = "Sheet_1"
             ; SheetRows = 
-                [ {RowCells = [ {CellValue = IntValue 1000}; {CellValue = StrValue "hello"} ] }
-                ; {RowCells = [ {CellValue = IntValue 1001}; {CellValue = StrValue "world"} ] }
+                [ {RowCells = [ {CellValue = Int64Val 1000L}; {CellValue = StringVal "hello"} ] }
+                ; {RowCells = [ {CellValue = Int64Val 1001L}; {CellValue = StringVal "world"} ] }
                 ] 
 
             }
             { SheetName = "Sheet_2"
             ; SheetRows = 
-                [ {RowCells = [ {CellValue = StrValue "world"} ] }
+                [ {RowCells = [ {CellValue = StringVal "world"} ] }
                 ] 
             } 
         ]
@@ -49,13 +49,13 @@ let test02 () : unit =
     let doc1 = 
         spreadsheet 
             [ sheet "Hello"
-                [ row [cell <| intDoc 1000; blank ; cell <| text "hello"]
-                ; row [cell <| intDoc 1001; blank ; cell <| text "world"]
+                [ row [cell <| intValue 1000; blankCell ; text "hello"]
+                ; row [cell <| intValue 1001; blankCell ; text "world"]
                 ] 
 
             ; sheet "World"
-                [ row [ cell <| text "hello world"]
-                ; row [ cell <| datetime System.DateTime.Now ] // see stackoverflow 2792304 how-to-insert-a-date-into-an-open-xml-worksheet
+                [ row [ text "hello world"]
+                ; row [ cell <| dateTimeValue System.DateTime.Now ] // see stackoverflow 2792304 how-to-insert-a-date-into-an-open-xml-worksheet
                 ]
             ]
     renderSpreadSheetDoc doc1 (outputFile "test02.xlsx")

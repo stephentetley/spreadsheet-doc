@@ -14,15 +14,27 @@ module SheetDoc =
     /// The format of a spreadsheet is complicated, so we will build 
     /// a simple 'model' of a spreadsheet and render it.
 
-    let intDoc (d : int) : ValueDoc = IntValue d
+    let int64Value (i : int64) : ValueDoc = Int64Val i
 
-    let text (s : string) : ValueDoc = StrValue s
+    let intValue (i : int) : ValueDoc = Int64Val (int64 i)
 
-    let datetime (dt : DateTime) : ValueDoc = DateTimeValue dt
+    let decimalValue (d : decimal) : ValueDoc = DecimalVal d
+
+    let stringValue (s : string) : ValueDoc = StringVal s
+
+    let dateTimeValue (dt : DateTime) : ValueDoc = DateTimeVal dt
 
     let cell (value : ValueDoc) : CellDoc = { CellValue = value }
+    
+    let blankCell : CellDoc = { CellValue = Blank }
 
-    let blank : CellDoc = { CellValue = Blank }
+    let text (s : string) : CellDoc = 
+        match s with
+        | null | "" -> blankCell
+        | _ -> StringVal s |> cell
+
+
+    
 
     let row (cells : CellDoc list) : RowDoc = { RowCells = cells }
 
