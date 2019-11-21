@@ -15,21 +15,31 @@ module Render =
 
     open SheetDoc.Internal.Common
     open SheetDoc.Internal.Syntax
+    open SheetDoc.Internal.Stylesheet
 
-    let renderTextCell (row : int) (col: int) (value : string) : OpenXmlElement = 
+    let renderTextCell (row : int) (col: int) (value : string) (styleIx : uint32 option) : OpenXmlElement = 
         let cellRef = cellName row col |> StringValue
         let cell = new Cell(DataType = EnumValue(CellValues.InlineString), CellReference = cellRef)
         let inlineStr = new InlineString()
         let text = new Text(Text = value)
         inlineStr.AppendChild(text :> OpenXmlElement) |> ignore
         cell.AppendChild(inlineStr) |> ignore
+        match styleIx with
+        | Some ix -> 
+            cell.StyleIndex <- UInt32Value(ix)
+        | _ -> ()
         cell :> OpenXmlElement
 
-    let renderNumberCell (row : int) (col: int) (value : string) : OpenXmlElement = 
+    let renderNumberCell (row : int) (col: int) 
+                            (value : string) (styleIx : uint32 option) : OpenXmlElement = 
         let cellRef = cellName row col |> StringValue
         let cell = new Cell(DataType = EnumValue(CellValues.Number)
                             , CellReference = cellRef)
         cell.CellValue <- new CellValue(value.ToString())
+        match styleIx with
+        | Some ix -> 
+            cell.StyleIndex <- UInt32Value(ix)
+        | _ -> ()
         cell :> OpenXmlElement
 
 
@@ -37,7 +47,6 @@ module Render =
         let cellRef = cellName row col |> StringValue
         let cell = new Cell(DataType = EnumValue(CellValues.Number)
                             , CellReference = cellRef)
-        // cell.StyleIndex <- UInt32Value(14u)
         cell.CellValue <- new CellValue(value.ToOADate().ToString(CultureInfo.InvariantCulture))
         cell.StyleIndex <- UInt32Value(1u)
         cell :> OpenXmlElement
@@ -45,16 +54,16 @@ module Render =
 
     // Note - returning Some/None might not be right if we add styling
     // and we can have e.g a colour filled cell with no value.
-    let renderCell (row : int) (col: int) (value : Value) : OpenXmlElement option = 
+    let renderCell (row : int) (col: int) (value : Value) (styleIx : uint32 option) : OpenXmlElement option = 
         match value with
         | Blank -> None
-        | Int64Val i -> renderNumberCell row col (i.ToString()) |> Some
-        | DecimalVal d -> renderNumberCell row col (d.ToString()) |> Some
-        | StringVal s -> renderTextCell row col s |> Some
+        | Int64Val i -> renderNumberCell row col (i.ToString()) styleIx |> Some
+        | DecimalVal d -> renderNumberCell row col (d.ToString()) styleIx |> Some
+        | StringVal s -> renderTextCell row col s styleIx |> Some
         | DateTimeVal dt -> renderDateTimeCell row col dt |> Some
 
     let renderRow (rowIx : int) (cellDocs : CellDoc list ) : OpenXmlElement = 
-        let cells = cellDocs |> List.mapi (fun i x -> renderCell rowIx i x.CellValue) 
+        let cells = cellDocs |> List.mapi (fun i x -> renderCell rowIx i x.CellValue x.StyleIndex) 
         let row = new Row(RowIndex = UInt32Value(uint32 <| rowIx + 1))
         cells |> List.choose id |> List.iter (fun cell -> row.Append(cell))
         row :> OpenXmlElement
@@ -101,20 +110,7 @@ module Render =
         let stylesPart : WorkbookStylesPart = 
             spreadsheetDocument.WorkbookPart.AddNewPart<WorkbookStylesPart>()
 
-        let stylesheet = new Stylesheet()
-        let cellFormats : OpenXmlElement list = 
-            let dateformat = new CellFormat()
-            dateformat.NumberFormatId <- UInt32Value(14u)
-            dateformat.ApplyNumberFormat <- BooleanValue(true)
-
-            [ new CellFormat() :> OpenXmlElement
-            ; dateformat :> OpenXmlElement
-            ]
-        stylesheet.Fonts <- new Fonts([new Font() :> OpenXmlElement])
-        stylesheet.Fills <- new Fills([new Fill() :> OpenXmlElement])
-        stylesheet.Borders <- new Borders([new Border() :> OpenXmlElement])
-        stylesheet.CellStyleFormats <- new CellStyleFormats([new CellFormat() :> OpenXmlElement])
-        stylesheet.CellFormats <- new CellFormats(cellFormats)
+        let stylesheet = sheetDocStylesheet ()
 
         stylesPart.Stylesheet <- stylesheet
 

@@ -16,6 +16,7 @@ open System.IO
 
 #load "..\src\SheetDoc\Internal\Common.fs"
 #load "..\src\SheetDoc\Internal\Syntax.fs"
+#load "..\src\SheetDoc\Internal\Stylesheet.fs"
 #load "..\src\SheetDoc\Internal\Render.fs"
 #load "..\src\SheetDoc\SheetDoc.fs"
 open SheetDoc.Internal.Syntax
@@ -27,26 +28,6 @@ let outputFile (name : string) : string =
 
 let test01 () : unit = 
     let doc1 = 
-        { Sheets = [ 
-            { SheetName = "Sheet_1"
-            ; SheetRows = 
-                [ {RowCells = [ {CellValue = Int64Val 1000L}; {CellValue = StringVal "hello"} ] }
-                ; {RowCells = [ {CellValue = Int64Val 1001L}; {CellValue = StringVal "world"} ] }
-                ] 
-
-            }
-            { SheetName = "Sheet_2"
-            ; SheetRows = 
-                [ {RowCells = [ {CellValue = StringVal "world"} ] }
-                ] 
-            } 
-        ]
-        }
-    renderSpreadSheetDoc doc1 (outputFile "test01.xlsx")
-
-
-let test02 () : unit = 
-    let doc1 = 
         spreadsheet 
             [ sheet "Hello"
                 [ row [cell <| intValue 1000; blankCell ; text "hello"]
@@ -54,8 +35,8 @@ let test02 () : unit =
                 ] 
 
             ; sheet "World"
-                [ row [ text "hello world"]
+                [ row [ text "hello world" |> bold ]
                 ; row [ cell <| dateTimeValue System.DateTime.Now ] // see stackoverflow 2792304 how-to-insert-a-date-into-an-open-xml-worksheet
                 ]
             ]
-    renderSpreadSheetDoc doc1 (outputFile "test02.xlsx")
+    renderSpreadSheetDoc doc1 (outputFile "test01.xlsx")

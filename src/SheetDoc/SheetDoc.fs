@@ -24,9 +24,14 @@ module SheetDoc =
 
     let dateTimeValue (dt : DateTime) : ValueDoc = DateTimeVal dt
 
-    let cell (value : ValueDoc) : CellDoc = { CellValue = value }
+    let cell (value : ValueDoc) : CellDoc = 
+        { CellValue = value; StyleIndex = None }
     
-    let blankCell : CellDoc = { CellValue = Blank }
+    let blankCell : CellDoc = { CellValue = Blank; StyleIndex = None }
+
+    /// Note - currently this will invalidate any existing formatting e.g. datetime
+    let bold : CellDoc -> CellDoc = 
+        fun cell -> { cell with StyleIndex = Some 2u }
 
     let text (s : string) : CellDoc = 
         match s with

@@ -16,7 +16,9 @@ module Syntax =
         | DateTimeVal of DateTime
 
     type CellDoc = 
-        { CellValue : Value }
+        { CellValue : Value
+          StyleIndex : uint32 option 
+        }
 
     type RowDoc = 
         { RowCells : CellDoc list }
