@@ -8,6 +8,9 @@ module Syntax =
 
     open System
 
+
+    // TODO - text data should allow runs so we can have fairly simple formatting.
+
     type Value = 
         | Blank
         | Int64Val of int64

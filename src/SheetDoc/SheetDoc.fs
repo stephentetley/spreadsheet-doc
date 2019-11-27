@@ -6,6 +6,8 @@ namespace SheetDoc
 module SheetDoc =
     
     open System
+
+    open SheetDoc.Internal
     open SheetDoc.Internal.Syntax
 
     type ValueDoc = Value
@@ -52,5 +54,8 @@ module SheetDoc =
         { Sheets = sheets
         }
 
+
+    let writeSpreadSheetDoc (spreadSheetDoc: SpreadSheetDoc) (outputPath : string) = 
+        Render.renderSpreadSheetDoc spreadSheetDoc outputPath
 
 

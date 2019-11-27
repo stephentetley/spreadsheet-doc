@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SheetDoc", "src\SheetDoc.fsproj", "{AC3CC0C5-4101-4129-BB7B-ED2ACCE4BCB2}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SheetDoc", "src\SheetDoc.fsproj", "{AC3CC0C5-4101-4129-BB7B-ED2ACCE4BCB2}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SheetDocTest", "test\SheetDocTest.fsproj", "{16682379-59FC-4132-BB32-15838A3FFC19}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SheetDocDraft", "draft\SheetDocDraft.fsproj", "{02C62052-84DD-4292-955C-72D9A0E26C24}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SheetDocTest", "test\SheetDocTest.fsproj", "{16682379-59FC-4132-BB32-15838A3FFC19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{16682379-59FC-4132-BB32-15838A3FFC19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16682379-59FC-4132-BB32-15838A3FFC19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16682379-59FC-4132-BB32-15838A3FFC19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02C62052-84DD-4292-955C-72D9A0E26C24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02C62052-84DD-4292-955C-72D9A0E26C24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02C62052-84DD-4292-955C-72D9A0E26C24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02C62052-84DD-4292-955C-72D9A0E26C24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
