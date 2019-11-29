@@ -1,14 +1,14 @@
 ﻿// Copyright (c) Stephen Tetley 2019
 // License: BSD 3 Clause
 
-namespace SheetDoc
+namespace SpreadsheetDoc
 
-module SheetDoc =
+module SpreadsheetDoc =
     
     open System
 
-    open SheetDoc.Internal
-    open SheetDoc.Internal.Syntax
+    open SpreadsheetDoc.Internal
+    open SpreadsheetDoc.Internal.Syntax
 
     type ValueDoc = Value
 
@@ -55,7 +55,7 @@ module SheetDoc =
         }
 
 
-    let writeSpreadSheetDoc (spreadSheetDoc: SpreadSheetDoc) (outputPath : string) = 
-        Render.renderSpreadSheetDoc spreadSheetDoc outputPath
+    let writeSpreadsheetDoc (spreadsheetDoc: SpreadsheetDoc) (outputPath : string) = 
+        Render.renderSpreadsheetDoc spreadsheetDoc outputPath
 
 

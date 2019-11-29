@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <None Include="Test01.fsx" />
-    <None Include="SharedString01.fsx" />
-    <None Include="Snippet.fsx" />
   </ItemGroup>
 
   <ItemGroup>

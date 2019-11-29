@@ -11,11 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="SheetDoc\Internal\Common.fs" />
-    <Compile Include="SheetDoc\Internal\Syntax.fs" />
-    <Compile Include="SheetDoc\Internal\Stylesheet.fs" />
-    <Compile Include="SheetDoc\Internal\Render.fs" />
-    <Compile Include="SheetDoc\SheetDoc.fs" />
+    <Compile Include="SpreadsheetDoc\Internal\Common.fs" />
+    <Compile Include="SpreadsheetDoc\Internal\Syntax.fs" />
+    <Compile Include="SpreadsheetDoc\Internal\Stylesheet.fs" />
+    <Compile Include="SpreadsheetDoc\Internal\Render.fs" />
+    <Compile Include="SpreadsheetDoc\SpreadsheetDoc.fs" />
   </ItemGroup>
   
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Stephen Tetley 2019
 // License: BSD 3 Clause
 
-namespace SheetDoc.Internal
+namespace SpreadsheetDoc.Internal
 
 
 module Render = 
@@ -13,9 +13,9 @@ module Render =
     open DocumentFormat.OpenXml.Spreadsheet
     open DocumentFormat.OpenXml.Packaging
 
-    open SheetDoc.Internal.Common
-    open SheetDoc.Internal.Syntax
-    open SheetDoc.Internal.Stylesheet
+    open SpreadsheetDoc.Internal.Common
+    open SpreadsheetDoc.Internal.Syntax
+    open SpreadsheetDoc.Internal.Stylesheet
 
     let renderTextCell (row : int) (col: int) (value : string) (styleIx : uint32 option) : OpenXmlElement = 
         let cellRef = cellName row col |> StringValue
@@ -99,7 +99,7 @@ module Render =
         sheets.Append ([sheet :> OpenXmlElement])
         
 
-    let renderSpreadSheetDoc (spreadsheet : SpreadSheetDoc) (outputPath : string) = 
+    let renderSpreadsheetDoc (spreadsheet : SpreadsheetDoc) (outputPath : string) = 
         let spreadsheetDocument : SpreadsheetDocument = 
             SpreadsheetDocument.Create(outputPath, SpreadsheetDocumentType.Workbook)
 

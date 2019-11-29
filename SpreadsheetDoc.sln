@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SheetDoc", "src\SheetDoc.fsproj", "{AC3CC0C5-4101-4129-BB7B-ED2ACCE4BCB2}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SpreadsheetDoc", "src\SpreadsheetDoc.fsproj", "{AC3CC0C5-4101-4129-BB7B-ED2ACCE4BCB2}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SheetDocDraft", "draft\SheetDocDraft.fsproj", "{02C62052-84DD-4292-955C-72D9A0E26C24}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SpreadsheetDocDraft", "draft\SpreadsheetDocDraft.fsproj", "{02C62052-84DD-4292-955C-72D9A0E26C24}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SheetDocTest", "test\SheetDocTest.fsproj", "{16682379-59FC-4132-BB32-15838A3FFC19}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SpreadsheetDocTest", "test\SpreadsheetDocTest.fsproj", "{16682379-59FC-4132-BB32-15838A3FFC19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Stephen Tetley 2019
 // License: BSD 3 Clause
 
-namespace SheetDoc.Internal
+namespace SpreadsheetDoc.Internal
 
 
 module Syntax = 
@@ -32,6 +32,6 @@ module Syntax =
           SheetRows : RowDoc list
         }
 
-    type SpreadSheetDoc = 
+    type SpreadsheetDoc = 
         { Sheets : SheetDoc list 
         }

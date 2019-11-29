@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="NewXlsx02.fsx" />
     <None Include="NewXlsx01.fsx" />
+    <None Include="NewXlsx02.fsx" />
+    <None Include="TextRun01.fsx" />
   </ItemGroup>
 
   <ItemGroup />
